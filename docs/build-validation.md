@@ -78,8 +78,16 @@ west build -s zmk/app -d build-studio -b nice_nano_v2 \
 
 Studioの古いnanopbは`pkg_resources`を要求するためSetuptools 80.9.0を固定しています。macOSの`/tmp`と`/private/tmp`を混在させるとprotobufの相対パスが一致しない場合があるため、ソースはホーム配下など同一表記の実パスに置いてください。上流ソースへの修正は行っていません。
 
-## 未実施の検証
+## GitHub Actionsでの検証
 
-GitHubリポジトリの作成・push・Actionsの実行は行っていません。したがって「Actions実行成功」までは確認していません。Actions設定は固定版の公式ワークフローを使い、両UF2の生成後検査まで含めています。
+[公開リポジトリ](https://github.com/fineboy0517/zmk-config-c48gl)へ配置し、[Actions実行 #1](https://github.com/fineboy0517/zmk-config-c48gl/actions/runs/41897929720)が成功しました（2026-11-05 日本時間）。対象コミットは`f1a78fae095d84c668dd464c4e9929c73f579409`です。
 
-また、実物でのピン互換性、起動、48キー入力、同時押し、USB HID通信、BLEペアリング、Studio通信・保存、電源・バッテリー・無線性能は未検証です。ビルド成功はこれらの動作確認を意味しません。確認項目とピン対応は`docs/research.md`、将来の書き込み手順はREADMEを参照してください。
+`validate`、通常版ビルド、Studio版ビルド、成果物の統合、`verify-uf2`の全ジョブが成功しました。両UF2は上記ローカル版とサイズ・SHA-256が一致しています。
+
+成果物は実行ページのArtifactsにある`firmware`（artifact ID: `13356078376`）です。ZIPには`c48gl-nice_nano_v2.uf2`と`c48gl-nice_nano_v2-studio.uf2`が入ります。ZIPのSHA-256は`0353edfd1e7b252559bbd6a0526bb86a384dc2a22c95e66b027887b40d159ef2`です。
+
+GitHub上の44ファイルのGit blob hashも、初回配置時のローカルファイルと全て一致することを確認しました。その後の文書・検証記録のみの更新には`[skip ci]`を付け、ビルド済み設定に変更を加えていません。
+
+## 実機で未実施の検証
+
+実物でのピン互換性、起動、48キー入力、同時押し、USB HID通信、BLEペアリング、Studio通信・保存、電源・バッテリー・無線性能は未検証です。ビルド成功はこれらの動作確認を意味しません。確認項目とピン対応は`docs/research.md`、将来の書き込み手順はREADMEを参照してください。

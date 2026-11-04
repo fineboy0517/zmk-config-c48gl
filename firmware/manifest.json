@@ -3,7 +3,7 @@
   "board": "nice_nano_v2",
   "shield": "c48gl",
   "zmk_commit": "edf5c0814fd3ea202e43aad2d68fd32e882a518c",
-  "github_actions_run": false,
+  "github_actions_run": true,
   "hardware_flashed": false,
   "hardware_tested": false,
   "inputs": {
@@ -29,5 +29,9 @@
       "sha256": "c9c45e80767f27c9be680ab643fd7964fe7cb13ddaa23d683bc14caaf15381ba",
       "bytes": 357888
     }
-  }
+  },
+  "github_actions_run_id": 41897929720,
+  "github_actions_run_url": "https://github.com/fineboy0517/zmk-config-c48gl/actions/runs/41897929720",
+  "github_actions_commit": "f1a78fae095d84c668dd464c4e9929c73f579409",
+  "github_actions_uf2_match_local": true
 }

@@ -1,8 +1,12 @@
 # C48GL / SuperMini nRF52840用ZMK
 
+[![Build C48GL UF2](https://github.com/fineboy0517/zmk-config-c48gl/actions/workflows/build.yml/badge.svg)](https://github.com/fineboy0517/zmk-config-c48gl/actions/workflows/build.yml)
+
+公開リポジトリ: [fineboy0517/zmk-config-c48gl](https://github.com/fineboy0517/zmk-config-c48gl)
+
 GL516ケース用C48GLを、nice!nano v2互換のSuperMini nRF52840で使うための単体48キー設定です。USB HID・Bluetooth LEに対応し、通常版とZMK Studio有効版を用意しました。
 
-**両方のUF2をローカルでビルド済みです。実機には書き込んでいません。** GitHub Actionsでの実行、対象PCB・SuperMiniでのUSB/BLE動作、電源と導通は未検証です。ピン配線は公開QMKとPCBで照合しましたが、手元のSuperMiniの互換性は実物で確認してください。
+**両方のUF2をローカルでビルド済みです。実機には書き込んでいません。** [GitHub Actionsでも両UF2の生成・検査に成功しました](https://github.com/fineboy0517/zmk-config-c48gl/actions/runs/41897929720)。対象PCB・SuperMiniでのUSB/BLE動作、電源と導通は未検証です。ピン配線は公開QMKとPCBで照合しましたが、手元のSuperMiniの互換性は実物で確認してください。
 
 - [配線調査・ピン対応・標準ドライバの検討](docs/research.md)
 - [ビルド検証結果](docs/build-validation.md)
@@ -18,6 +22,8 @@ ZMKでは標準の`zmk,kscan-gpio-charlieplex`と10×10→48キーのmatrix-tran
 専用割り込み線がないためポーリングを使います。キーでの復帰経路が未確認の深いスリープは無効です。待機消費電流・電池寿命・左右混在の多キー同時押しは実機で検証する必要があります。
 
 ## GitHub Actionsでビルド
+
+[成功したビルドとUF2ダウンロード](https://github.com/fineboy0517/zmk-config-c48gl/actions/runs/41897929720)のArtifactsから`firmware`を取得できます。中に通常版とStudio版の2つのUF2が入っています。このリポジトリは配置済みなので、キーマップを変更する場合は`config/c48gl.keymap`を編集してpushしてください。
 
 1. このフォルダの内容を自分のGitHubリポジトリへ追加します。`.github/`、`boards/`、`config/`、`zephyr/`、`research/`、`scripts/`、`build.yaml`を含めてください。`.build/`はビルド用作業領域なので追加しません。
 2. pushすると`Build C48GL UF2`が起動します。Actionsの画面から`Run workflow`でも起動できます。
