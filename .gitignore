@@ -1,0 +1,7 @@
+.DS_Store
+__pycache__/
+.venv/
+.west/
+build/
+.build/
+# Deliverable UF2 files and build evidence in firmware/ are intentionally retained.

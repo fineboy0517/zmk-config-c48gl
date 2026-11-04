@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+#include "c48gl-jis.h"
+
+#define BASE 0
+#define LOWER 1
+#define RAISE 2
+#define ADJUST 3
+
+#if CONFIG_ZMK_STUDIO
+#define STUDIO_BINDING &studio_unlock
+#else
+#define STUDIO_BINDING &none
+#endif
+
+/ {
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        adjust {
+            if-layers = <LOWER RAISE>;
+            then-layer = <ADJUST>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+        base {
+            display-name = "JIS QWERTY";
+            bindings = <
+                &kp TAB   &kp Q    &kp W    &kp E    &kp R          &kp T    &kp Y    &kp U          &kp I    &kp O    &kp P    &kp BSPC
+                &kp ESC   &kp A    &kp S    &kp D    &kp F          &kp G    &kp H    &kp J          &kp K    &kp L    &kp SEMI &kp RET
+                &kp LSHFT &kp Z    &kp X    &kp C    &kp V          &kp B    &kp N    &kp M          &kp COMMA &kp DOT &kp UP   &kp SLASH
+                &kp LCTRL &kp LGUI &kp LALT &mo LOWER &kp INT_MUHENKAN &kp SPACE &kp SPACE &kp INT_HENKAN &mo RAISE &kp LEFT &kp DOWN &kp RIGHT
+            >;
+        };
+        lower {
+            display-name = "Numbers / navigation";
+            bindings = <
+                &kp ESC   &kp N1   &kp N2   &kp N3   &kp N4        &kp N5   &kp N6   &kp N7        &kp N8   &kp N9   &kp N0   &kp DEL
+                &trans    &kp JP_AT &kp JP_LBKT &kp JP_RBKT &kp MINUS &kp JP_CARET &kp LEFT &kp DOWN &kp UP &kp RIGHT &kp JP_COLON &trans
+                &trans    &kp JP_YEN &kp JP_BSLH &kp HOME &kp END    &kp PG_UP &kp PG_DN &kp INSERT &kp COMMA &kp DOT &trans &kp SLASH
+                &trans    &trans   &trans   &trans   &kp LANG2     &trans   &trans   &kp LANG1     &trans   &trans   &trans   &trans
+            >;
+        };
+        raise {
+            display-name = "Symbols / function";
+            bindings = <
+                &kp F1    &kp F2   &kp F3   &kp F4   &kp F5        &kp F6   &kp F7   &kp F8        &kp F9   &kp F10  &kp F11  &kp F12
+                &trans    &kp EXCL &kp JP_DQUOTE &kp HASH &kp DOLLAR &kp PERCENT &kp JP_AMPS &kp JP_SQUOTE &kp JP_LPAR &kp JP_RPAR &kp JP_PLUS &trans
+                &trans    &kp JP_TILDE &kp JP_PIPE &kp JP_LBRACE &kp JP_RBRACE &kp JP_UNDER &kp JP_EQUAL &kp JP_STAR &kp LT &kp GT &trans &kp QMARK
+                &trans    &trans   &trans   &trans   &kp INT_KANA  &trans   &trans   &kp LANG_ZENKAKUHANKAKU &trans &trans &trans &trans
+            >;
+        };
+        adjust {
+            display-name = "Bluetooth / system";
+            bindings = <
+                &none     &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none &none &none &none &none &bt BT_CLR
+                &none     &out OUT_USB &out OUT_BLE &none &none &none &none &none &none &none &none &none
+                &kp CAPS  &none &none &none &none &none &none &none &none &none &none &none
+                &trans    &trans &trans &trans &none STUDIO_BINDING &none &none &trans &trans &trans &trans
+            >;
+        };
+    };
+};

@@ -1,0 +1,8 @@
+file_format: "1"
+id: c48gl
+name: C48GL
+type: shield
+url: https://github.com/Salicylic-acid3/GL516_Example/tree/main/Keyboard/C48GL
+requires: [pro_micro]
+features: [keys]
+# Studio builds are provided, but not advertised as hardware-tested.

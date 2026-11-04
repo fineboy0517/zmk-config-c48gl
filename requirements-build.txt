@@ -1,0 +1,8 @@
+# Install after Zephyr's scripts/requirements-base.txt in a Python venv.
+west==1.5.0
+cmake==3.31.10
+ninja==1.13.2
+# nanopb bundled with ZMK v0.3.0 still imports pkg_resources.
+setuptools==80.9.0
+grpcio-tools==1.80.0
+protobuf==6.33.6

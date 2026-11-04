@@ -1,0 +1,67 @@
+{
+  "retrieved_date": "2026-11-05",
+  "qmk_commit": "384396b78dd62fa25955c58d77f3cd93040ca933",
+  "hardware_commit": "a3e8a0b21a2889e085a683e8f666ea4ae58bedab",
+  "files": [
+    {
+      "path": "research/hardware/C48GL.kicad_pcb",
+      "url": "https://github.com/Salicylic-acid3/GL516_Example/blob/a3e8a0b21a2889e085a683e8f666ea4ae58bedab/Keyboard/C48GL/2_Assemble/C48GL.kicad_pcb",
+      "sha256": "5161c3f0fc3d650ca090fba1a3b72c8eaa22dcd47052cad3c6e5aeeb1027171f",
+      "status": "reference"
+    },
+    {
+      "path": "research/hardware/C48GL.net",
+      "url": "https://github.com/Salicylic-acid3/GL516_Example/blob/a3e8a0b21a2889e085a683e8f666ea4ae58bedab/Keyboard/C48GL/2_Assemble/C48GL.net",
+      "sha256": "151d89393dda2103616510adbda798e3be1afe87afea41f5d0d4606b755a1d14",
+      "status": "stale; excluded from electrical evidence"
+    },
+    {
+      "path": "research/hardware/C48GL.sch",
+      "url": "https://github.com/Salicylic-acid3/GL516_Example/blob/a3e8a0b21a2889e085a683e8f666ea4ae58bedab/Keyboard/C48GL/2_Assemble/C48GL.sch",
+      "sha256": "d47ab64c5f3750eec3db297fa342e04f1ba23ca12894a445ddb14b765c5ac6ca",
+      "status": "reference"
+    },
+    {
+      "path": "research/hardware/via-c48gl.json",
+      "url": "https://github.com/Salicylic-acid3/via-json/blob/444d72bd2f50546e2c5d42bb36a3074ed3bb0794/c48gl.json",
+      "sha256": "fde642a1c7f4e0056d5d60ba71ef3c1839c082d2c3790305e757d81ed44d3e51",
+      "status": "reference"
+    },
+    {
+      "path": "research/qmk/LICENSE",
+      "url": "https://github.com/Salicylic-acid3/qmk_firmware/blob/384396b78dd62fa25955c58d77f3cd93040ca933/LICENSE",
+      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+      "status": "reference"
+    },
+    {
+      "path": "research/qmk/config.h",
+      "url": "https://github.com/Salicylic-acid3/qmk_firmware/blob/384396b78dd62fa25955c58d77f3cd93040ca933/keyboards/gl516/c48gl/config.h",
+      "sha256": "49f4965f7cb8c5b7c45335e6e85b50177f79bc2e46ece648b396ce09722f2a08",
+      "status": "reference"
+    },
+    {
+      "path": "research/qmk/info.json",
+      "url": "https://github.com/Salicylic-acid3/qmk_firmware/blob/384396b78dd62fa25955c58d77f3cd93040ca933/keyboards/gl516/c48gl/info.json",
+      "sha256": "de5b6691e8055a580cfa801876beca58dced76c2b53d2d8bf3ba0b1bdd90da90",
+      "status": "reference"
+    },
+    {
+      "path": "research/qmk/keymap.c",
+      "url": "https://github.com/Salicylic-acid3/qmk_firmware/blob/384396b78dd62fa25955c58d77f3cd93040ca933/keyboards/gl516/c48gl/keymaps/default/keymap.c",
+      "sha256": "3c2c2bec3200eb3e88abd681fc6db7824735d083a9caa5822351f20899a26088",
+      "status": "reference"
+    },
+    {
+      "path": "research/qmk/matrix.c",
+      "url": "https://github.com/Salicylic-acid3/qmk_firmware/blob/384396b78dd62fa25955c58d77f3cd93040ca933/keyboards/gl516/c48gl/matrix.c",
+      "sha256": "6cb83376cf9be659fd04455caf43e000a2eb6f0cd0dfcf28bc03d66a8c117d28",
+      "status": "reference"
+    },
+    {
+      "path": "research/qmk/rules.mk",
+      "url": "https://github.com/Salicylic-acid3/qmk_firmware/blob/384396b78dd62fa25955c58d77f3cd93040ca933/keyboards/gl516/c48gl/rules.mk",
+      "sha256": "25d1255bd5d028ae208206970f2c1ff521d9f7660f3663aa02e6e521a518c8bf",
+      "status": "reference"
+    }
+  ]
+}

@@ -1,0 +1,782 @@
+/dts-v1/;
+
+/ {
+	#address-cells = < 0x1 >;
+	#size-cells = < 0x1 >;
+	model = "nice!nano";
+	compatible = "nice,nano";
+	chosen {
+		zephyr,entropy = &rng;
+		zephyr,flash-controller = &flash_controller;
+		zephyr,code-partition = &code_partition;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zmk,battery = &vbatt;
+		zmk,kscan = &kscan0;
+		zmk,physical-layout = &c48gl_layout;
+	};
+	aliases {
+	};
+	soc {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x1 >;
+		compatible = "nordic,nrf52840-qiaa", "nordic,nrf52840", "nordic,nrf52", "simple-bus";
+		interrupt-parent = < &nvic >;
+		ranges;
+		nvic: interrupt-controller@e000e100 {
+			#address-cells = < 0x1 >;
+			compatible = "arm,v7m-nvic";
+			reg = < 0xe000e100 0xc00 >;
+			interrupt-controller;
+			#interrupt-cells = < 0x2 >;
+			arm,num-irq-priority-bits = < 0x3 >;
+			phandle = < 0x1 >;
+		};
+		systick: timer@e000e010 {
+			compatible = "arm,armv7m-systick";
+			reg = < 0xe000e010 0x10 >;
+			status = "disabled";
+		};
+		ficr: ficr@10000000 {
+			compatible = "nordic,nrf-ficr";
+			reg = < 0x10000000 0x1000 >;
+			status = "okay";
+		};
+		uicr: uicr@10001000 {
+			compatible = "nordic,nrf-uicr";
+			reg = < 0x10001000 0x1000 >;
+			status = "okay";
+		};
+		sram0: memory@20000000 {
+			compatible = "mmio-sram";
+			reg = < 0x20000000 0x40000 >;
+		};
+		clock: clock@40000000 {
+			compatible = "nordic,nrf-clock";
+			reg = < 0x40000000 0x1000 >;
+			interrupts = < 0x0 0x1 >;
+			status = "okay";
+		};
+		power: power@40000000 {
+			compatible = "nordic,nrf-power";
+			reg = < 0x40000000 0x1000 >;
+			interrupts = < 0x0 0x1 >;
+			status = "okay";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x1 >;
+			gpregret1: gpregret1@4000051c {
+				#address-cells = < 0x1 >;
+				#size-cells = < 0x1 >;
+				compatible = "nordic,nrf-gpregret";
+				reg = < 0x4000051c 0x1 >;
+				status = "okay";
+			};
+			gpregret2: gpregret2@40000520 {
+				#address-cells = < 0x1 >;
+				#size-cells = < 0x1 >;
+				compatible = "nordic,nrf-gpregret";
+				reg = < 0x40000520 0x1 >;
+				status = "okay";
+			};
+		};
+		radio: radio@40001000 {
+			compatible = "nordic,nrf-radio";
+			reg = < 0x40001000 0x1000 >;
+			interrupts = < 0x1 0x1 >;
+			status = "okay";
+			ieee802154-supported;
+			ble-2mbps-supported;
+			ble-coded-phy-supported;
+			tx-high-power-supported;
+			ieee802154: ieee802154 {
+				compatible = "nordic,nrf-ieee802154";
+				status = "disabled";
+			};
+		};
+		uart0: pro_micro_serial: uart@40002000 {
+			compatible = "nordic,nrf-uarte";
+			reg = < 0x40002000 0x1000 >;
+			interrupts = < 0x2 0x1 >;
+			status = "disabled";
+			current-speed = < 0x1c200 >;
+			pinctrl-0 = < &uart0_default >;
+			pinctrl-1 = < &uart0_sleep >;
+			pinctrl-names = "default", "sleep";
+		};
+		i2c0: pro_micro_i2c: i2c@40003000 {
+			compatible = "nordic,nrf-twi";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40003000 0x1000 >;
+			clock-frequency = < 0x186a0 >;
+			interrupts = < 0x3 0x1 >;
+			easydma-maxcnt-bits = < 0x10 >;
+			status = "disabled";
+			pinctrl-0 = < &i2c0_default >;
+			pinctrl-1 = < &i2c0_sleep >;
+			pinctrl-names = "default", "sleep";
+		};
+		spi0: spi@40003000 {
+			compatible = "nordic,nrf-spim";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40003000 0x1000 >;
+			interrupts = < 0x3 0x1 >;
+			max-frequency = < 0x7a1200 >;
+			easydma-maxcnt-bits = < 0x10 >;
+			status = "disabled";
+		};
+		i2c1: i2c@40004000 {
+			compatible = "nordic,nrf-twim";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40004000 0x1000 >;
+			clock-frequency = < 0x186a0 >;
+			interrupts = < 0x4 0x1 >;
+			easydma-maxcnt-bits = < 0x10 >;
+			status = "disabled";
+		};
+		spi1: pro_micro_spi: spi@40004000 {
+			compatible = "nordic,nrf-spim";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40004000 0x1000 >;
+			interrupts = < 0x4 0x1 >;
+			max-frequency = < 0x7a1200 >;
+			easydma-maxcnt-bits = < 0x10 >;
+			status = "disabled";
+			pinctrl-0 = < &spi1_default >;
+			pinctrl-1 = < &spi1_sleep >;
+			pinctrl-names = "default", "sleep";
+		};
+		nfct: nfct@40005000 {
+			compatible = "nordic,nrf-nfct";
+			reg = < 0x40005000 0x1000 >;
+			interrupts = < 0x5 0x1 >;
+			status = "okay";
+		};
+		gpiote: gpiote@40006000 {
+			compatible = "nordic,nrf-gpiote";
+			reg = < 0x40006000 0x1000 >;
+			interrupts = < 0x6 0x5 >;
+			status = "okay";
+		};
+		adc: adc@40007000 {
+			compatible = "nordic,nrf-saadc";
+			reg = < 0x40007000 0x1000 >;
+			interrupts = < 0x7 0x1 >;
+			status = "okay";
+			#io-channel-cells = < 0x1 >;
+		};
+		timer0: timer@40008000 {
+			compatible = "nordic,nrf-timer";
+			status = "disabled";
+			reg = < 0x40008000 0x1000 >;
+			cc-num = < 0x4 >;
+			max-bit-width = < 0x20 >;
+			interrupts = < 0x8 0x1 >;
+			prescaler = < 0x0 >;
+		};
+		timer1: timer@40009000 {
+			compatible = "nordic,nrf-timer";
+			status = "disabled";
+			reg = < 0x40009000 0x1000 >;
+			cc-num = < 0x4 >;
+			max-bit-width = < 0x20 >;
+			interrupts = < 0x9 0x1 >;
+			prescaler = < 0x0 >;
+			phandle = < 0x8 >;
+		};
+		timer2: timer@4000a000 {
+			compatible = "nordic,nrf-timer";
+			status = "disabled";
+			reg = < 0x4000a000 0x1000 >;
+			cc-num = < 0x4 >;
+			max-bit-width = < 0x20 >;
+			interrupts = < 0xa 0x1 >;
+			prescaler = < 0x0 >;
+		};
+		rtc0: rtc@4000b000 {
+			compatible = "nordic,nrf-rtc";
+			reg = < 0x4000b000 0x1000 >;
+			cc-num = < 0x3 >;
+			interrupts = < 0xb 0x1 >;
+			status = "disabled";
+			clock-frequency = < 0x8000 >;
+			prescaler = < 0x1 >;
+		};
+		temp: temp@4000c000 {
+			compatible = "nordic,nrf-temp";
+			reg = < 0x4000c000 0x1000 >;
+			interrupts = < 0xc 0x1 >;
+			status = "okay";
+		};
+		rng: random@4000d000 {
+			compatible = "nordic,nrf-rng";
+			reg = < 0x4000d000 0x1000 >;
+			interrupts = < 0xd 0x1 >;
+			status = "okay";
+		};
+		ecb: ecb@4000e000 {
+			compatible = "nordic,nrf-ecb";
+			reg = < 0x4000e000 0x1000 >;
+			interrupts = < 0xe 0x1 >;
+			status = "okay";
+		};
+		ccm: ccm@4000f000 {
+			compatible = "nordic,nrf-ccm";
+			reg = < 0x4000f000 0x1000 >;
+			interrupts = < 0xf 0x1 >;
+			length-field-length-8-bits;
+			status = "okay";
+		};
+		wdt: wdt0: watchdog@40010000 {
+			compatible = "nordic,nrf-wdt";
+			reg = < 0x40010000 0x1000 >;
+			interrupts = < 0x10 0x1 >;
+			status = "okay";
+		};
+		rtc1: rtc@40011000 {
+			compatible = "nordic,nrf-rtc";
+			reg = < 0x40011000 0x1000 >;
+			cc-num = < 0x4 >;
+			interrupts = < 0x11 0x1 >;
+			status = "disabled";
+			clock-frequency = < 0x8000 >;
+			prescaler = < 0x1 >;
+		};
+		qdec: qdec0: qdec@40012000 {
+			compatible = "nordic,nrf-qdec";
+			reg = < 0x40012000 0x1000 >;
+			interrupts = < 0x12 0x1 >;
+			status = "disabled";
+		};
+		comp: comparator@40013000 {
+			compatible = "nordic,nrf-comp";
+			reg = < 0x40013000 0x1000 >;
+			interrupts = < 0x13 0x1 >;
+			status = "disabled";
+			#io-channel-cells = < 0x1 >;
+		};
+		egu0: swi0: egu@40014000 {
+			compatible = "nordic,nrf-egu", "nordic,nrf-swi";
+			reg = < 0x40014000 0x1000 >;
+			interrupts = < 0x14 0x1 >;
+			status = "okay";
+		};
+		egu1: swi1: egu@40015000 {
+			compatible = "nordic,nrf-egu", "nordic,nrf-swi";
+			reg = < 0x40015000 0x1000 >;
+			interrupts = < 0x15 0x1 >;
+			status = "okay";
+		};
+		egu2: swi2: egu@40016000 {
+			compatible = "nordic,nrf-egu", "nordic,nrf-swi";
+			reg = < 0x40016000 0x1000 >;
+			interrupts = < 0x16 0x1 >;
+			status = "okay";
+		};
+		egu3: swi3: egu@40017000 {
+			compatible = "nordic,nrf-egu", "nordic,nrf-swi";
+			reg = < 0x40017000 0x1000 >;
+			interrupts = < 0x17 0x1 >;
+			status = "okay";
+		};
+		egu4: swi4: egu@40018000 {
+			compatible = "nordic,nrf-egu", "nordic,nrf-swi";
+			reg = < 0x40018000 0x1000 >;
+			interrupts = < 0x18 0x1 >;
+			status = "okay";
+		};
+		egu5: swi5: egu@40019000 {
+			compatible = "nordic,nrf-egu", "nordic,nrf-swi";
+			reg = < 0x40019000 0x1000 >;
+			interrupts = < 0x19 0x1 >;
+			status = "okay";
+		};
+		timer3: timer@4001a000 {
+			compatible = "nordic,nrf-timer";
+			status = "disabled";
+			reg = < 0x4001a000 0x1000 >;
+			cc-num = < 0x6 >;
+			max-bit-width = < 0x20 >;
+			interrupts = < 0x1a 0x1 >;
+			prescaler = < 0x0 >;
+		};
+		timer4: timer@4001b000 {
+			compatible = "nordic,nrf-timer";
+			status = "disabled";
+			reg = < 0x4001b000 0x1000 >;
+			cc-num = < 0x6 >;
+			max-bit-width = < 0x20 >;
+			interrupts = < 0x1b 0x1 >;
+			prescaler = < 0x0 >;
+		};
+		pwm0: pwm@4001c000 {
+			compatible = "nordic,nrf-pwm";
+			reg = < 0x4001c000 0x1000 >;
+			interrupts = < 0x1c 0x1 >;
+			status = "disabled";
+			#pwm-cells = < 0x3 >;
+		};
+		pdm0: pdm@4001d000 {
+			compatible = "nordic,nrf-pdm";
+			reg = < 0x4001d000 0x1000 >;
+			interrupts = < 0x1d 0x1 >;
+			status = "disabled";
+		};
+		acl: acl@4001e000 {
+			compatible = "nordic,nrf-acl";
+			reg = < 0x4001e000 0x1000 >;
+			status = "okay";
+		};
+		flash_controller: flash-controller@4001e000 {
+			compatible = "nordic,nrf52-flash-controller";
+			reg = < 0x4001e000 0x1000 >;
+			partial-erase;
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x1 >;
+			flash0: flash@0 {
+				compatible = "soc-nv-flash";
+				erase-block-size = < 0x1000 >;
+				write-block-size = < 0x4 >;
+				reg = < 0x0 0x100000 >;
+				partitions {
+					compatible = "fixed-partitions";
+					#address-cells = < 0x1 >;
+					#size-cells = < 0x1 >;
+					sd_partition: partition@0 {
+						reg = < 0x0 0x26000 >;
+					};
+					code_partition: partition@26000 {
+						reg = < 0x26000 0xc6000 >;
+					};
+					storage_partition: partition@ec000 {
+						reg = < 0xec000 0x8000 >;
+					};
+					boot_partition: partition@f4000 {
+						reg = < 0xf4000 0xc000 >;
+					};
+				};
+			};
+		};
+		ppi: ppi@4001f000 {
+			compatible = "nordic,nrf-ppi";
+			reg = < 0x4001f000 0x1000 >;
+			status = "okay";
+		};
+		mwu: mwu@40020000 {
+			compatible = "nordic,nrf-mwu";
+			reg = < 0x40020000 0x1000 >;
+			status = "okay";
+		};
+		pwm1: pwm@40021000 {
+			compatible = "nordic,nrf-pwm";
+			reg = < 0x40021000 0x1000 >;
+			interrupts = < 0x21 0x1 >;
+			status = "disabled";
+			#pwm-cells = < 0x3 >;
+		};
+		pwm2: pwm@40022000 {
+			compatible = "nordic,nrf-pwm";
+			reg = < 0x40022000 0x1000 >;
+			interrupts = < 0x22 0x1 >;
+			status = "disabled";
+			#pwm-cells = < 0x3 >;
+		};
+		spi2: spi@40023000 {
+			compatible = "nordic,nrf-spim";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40023000 0x1000 >;
+			interrupts = < 0x23 0x1 >;
+			max-frequency = < 0x7a1200 >;
+			easydma-maxcnt-bits = < 0x10 >;
+			status = "disabled";
+		};
+		rtc2: rtc@40024000 {
+			compatible = "nordic,nrf-rtc";
+			reg = < 0x40024000 0x1000 >;
+			cc-num = < 0x4 >;
+			interrupts = < 0x24 0x1 >;
+			status = "disabled";
+			clock-frequency = < 0x8000 >;
+			prescaler = < 0x1 >;
+		};
+		i2s0: i2s@40025000 {
+			compatible = "nordic,nrf-i2s";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40025000 0x1000 >;
+			interrupts = < 0x25 0x1 >;
+			status = "disabled";
+		};
+		usbd: zephyr_udc0: usbd@40027000 {
+			compatible = "nordic,nrf-usbd";
+			reg = < 0x40027000 0x1000 >;
+			interrupts = < 0x27 0x1 >;
+			num-bidir-endpoints = < 0x1 >;
+			num-in-endpoints = < 0x7 >;
+			num-out-endpoints = < 0x7 >;
+			num-isoin-endpoints = < 0x1 >;
+			num-isoout-endpoints = < 0x1 >;
+			status = "okay";
+		};
+		uart1: uart@40028000 {
+			compatible = "nordic,nrf-uarte";
+			reg = < 0x40028000 0x1000 >;
+			interrupts = < 0x28 0x1 >;
+			status = "disabled";
+		};
+		qspi: qspi@40029000 {
+			compatible = "nordic,nrf-qspi";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x40029000 0x1000 >, < 0x12000000 0x8000000 >;
+			reg-names = "qspi", "qspi_mm";
+			interrupts = < 0x29 0x1 >;
+			status = "disabled";
+		};
+		pwm3: pwm@4002d000 {
+			compatible = "nordic,nrf-pwm";
+			reg = < 0x4002d000 0x1000 >;
+			interrupts = < 0x2d 0x1 >;
+			status = "disabled";
+			#pwm-cells = < 0x3 >;
+		};
+		spi3: spi@4002f000 {
+			compatible = "nordic,nrf-spim";
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x0 >;
+			reg = < 0x4002f000 0x1000 >;
+			interrupts = < 0x2f 0x1 >;
+			max-frequency = < 0x1e84800 >;
+			easydma-maxcnt-bits = < 0x10 >;
+			rx-delay-supported;
+			rx-delay = < 0x2 >;
+			status = "disabled";
+		};
+		gpio0: gpio@50000000 {
+			compatible = "nordic,nrf-gpio";
+			gpio-controller;
+			reg = < 0x50000000 0x200 0x50000500 0x300 >;
+			#gpio-cells = < 0x2 >;
+			status = "okay";
+			port = < 0x0 >;
+			phandle = < 0x9 >;
+		};
+		gpio1: gpio@50000300 {
+			compatible = "nordic,nrf-gpio";
+			gpio-controller;
+			reg = < 0x50000300 0x200 0x50000800 0x300 >;
+			#gpio-cells = < 0x2 >;
+			ngpios = < 0x10 >;
+			status = "okay";
+			port = < 0x1 >;
+			phandle = < 0xa >;
+		};
+		cryptocell: crypto@5002a000 {
+			compatible = "nordic,cryptocell", "arm,cryptocell-310";
+			reg = < 0x5002a000 0x1000 >, < 0x5002b000 0x1000 >;
+			reg-names = "wrapper", "core";
+			interrupts = < 0x2a 0x1 >;
+			status = "disabled";
+		};
+	};
+	pinctrl: pin-controller {
+		compatible = "nordic,nrf-pinctrl";
+		uart0_default: uart0_default {
+			phandle = < 0x2 >;
+			group1 {
+				psels = < 0x10008 >;
+				bias-pull-up;
+			};
+			group2 {
+				psels = < 0x6 >;
+			};
+		};
+		uart0_sleep: uart0_sleep {
+			phandle = < 0x3 >;
+			group1 {
+				psels = < 0x10008 >, < 0x6 >;
+				low-power-enable;
+			};
+		};
+		i2c0_default: i2c0_default {
+			phandle = < 0x4 >;
+			group1 {
+				psels = < 0xc0011 >, < 0xb0014 >;
+			};
+		};
+		i2c0_sleep: i2c0_sleep {
+			phandle = < 0x5 >;
+			group1 {
+				psels = < 0xc0011 >, < 0xb0014 >;
+				low-power-enable;
+			};
+		};
+		spi1_default: spi1_default {
+			phandle = < 0x6 >;
+			group1 {
+				psels = < 0x4002d >, < 0x5000a >, < 0x6002b >;
+			};
+		};
+		spi1_sleep: spi1_sleep {
+			phandle = < 0x7 >;
+			group1 {
+				psels = < 0x4002d >, < 0x5000a >, < 0x6002b >;
+				low-power-enable;
+			};
+		};
+	};
+	rng_hci: entropy_bt_hci {
+		compatible = "zephyr,bt-hci-entropy";
+		status = "okay";
+	};
+	sw_pwm: sw-pwm {
+		compatible = "nordic,nrf-sw-pwm";
+		status = "disabled";
+		generator = < &timer1 >;
+		clock-prescaler = < 0x0 >;
+		#pwm-cells = < 0x3 >;
+	};
+	cpus {
+		#address-cells = < 0x1 >;
+		#size-cells = < 0x0 >;
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "arm,cortex-m4f";
+			reg = < 0x0 >;
+			#address-cells = < 0x1 >;
+			#size-cells = < 0x1 >;
+			itm: itm@e0000000 {
+				compatible = "arm,armv7m-itm";
+				reg = < 0xe0000000 0x1000 >;
+				swo-ref-frequency = < 0x1e84800 >;
+			};
+		};
+	};
+	pro_micro: pro_micro_d: connector {
+		compatible = "arduino-pro-micro";
+		#gpio-cells = < 0x2 >;
+		gpio-map-mask = < 0xffffffff 0xffffffc0 >;
+		gpio-map-pass-thru = < 0x0 0x3f >;
+		gpio-map = < 0x0 0x0 &gpio0 0x8 0x0 >, < 0x1 0x0 &gpio0 0x6 0x0 >, < 0x2 0x0 &gpio0 0x11 0x0 >, < 0x3 0x0 &gpio0 0x14 0x0 >, < 0x4 0x0 &gpio0 0x16 0x0 >, < 0x5 0x0 &gpio0 0x18 0x0 >, < 0x6 0x0 &gpio1 0x0 0x0 >, < 0x7 0x0 &gpio0 0xb 0x0 >, < 0x8 0x0 &gpio1 0x4 0x0 >, < 0x9 0x0 &gpio1 0x6 0x0 >, < 0xa 0x0 &gpio0 0x9 0x0 >, < 0x10 0x0 &gpio0 0xa 0x0 >, < 0xe 0x0 &gpio1 0xb 0x0 >, < 0xf 0x0 &gpio1 0xd 0x0 >, < 0x12 0x0 &gpio1 0xf 0x0 >, < 0x13 0x0 &gpio0 0x2 0x0 >, < 0x14 0x0 &gpio0 0x1d 0x0 >, < 0x15 0x0 &gpio0 0x1f 0x0 >;
+		phandle = < 0xe >;
+	};
+	pro_micro_a: connector_a {
+		compatible = "arduino-pro-micro";
+		#gpio-cells = < 0x2 >;
+		gpio-map-mask = < 0xffffffff 0xffffffc0 >;
+		gpio-map-pass-thru = < 0x0 0x3f >;
+		gpio-map = < 0x0 0x0 &gpio1 0xf 0x0 >, < 0x1 0x0 &gpio0 0x2 0x0 >, < 0x2 0x0 &gpio0 0x1d 0x0 >, < 0x3 0x0 &gpio0 0x1f 0x0 >, < 0x6 0x0 &gpio0 0x16 0x0 >, < 0x7 0x0 &gpio1 0x0 0x0 >, < 0x8 0x0 &gpio1 0x4 0x0 >, < 0x9 0x0 &gpio1 0x6 0x0 >, < 0xa 0x0 &gpio0 0x9 0x0 >;
+	};
+	leds {
+		compatible = "gpio-leds";
+		blue_led: led_0 {
+			gpios = < &gpio0 0xf 0x0 >;
+		};
+	};
+	EXT_POWER {
+		compatible = "zmk,ext-power-generic";
+		control-gpios = < &gpio0 0xd 0x0 >;
+		init-delay-ms = < 0x32 >;
+	};
+	vbatt: vbatt {
+		compatible = "zmk,battery-nrf-vddh";
+	};
+	key_physical_attrs: key_physical_attrs {
+		compatible = "zmk,key-physical-attrs";
+		#key-cells = < 0x7 >;
+		phandle = < 0xd >;
+	};
+	c48gl_transform: transform {
+		compatible = "zmk,matrix-transform";
+		rows = < 0xa >;
+		columns = < 0xa >;
+		map = < 0x4 0x5 0x6 0x7 0x8 0x9 0x400 0x500 0x600 0x700 0x800 0x900 0x104 0x105 0x106 0x107 0x108 0x109 0x401 0x501 0x601 0x701 0x801 0x901 0x204 0x205 0x206 0x207 0x208 0x209 0x402 0x502 0x602 0x702 0x802 0x902 0x304 0x305 0x306 0x307 0x308 0x309 0x403 0x503 0x603 0x703 0x803 0x903 >;
+		phandle = < 0xb >;
+	};
+	c48gl_layout: physical_layout {
+		compatible = "zmk,physical-layout";
+		display-name = "C48GL 48 keys";
+		transform = < &c48gl_transform >;
+		kscan = < &kscan0 >;
+		keys = < &key_physical_attrs 0x64 0x64 0x5e 0x32 0x3e8 0x90 0x64 >, < &key_physical_attrs 0x64 0x64 0xc1 0x43 0x3e8 0xf3 0x75 >, < &key_physical_attrs 0x64 0x64 0x127 0x3c 0x3e8 0x159 0x6e >, < &key_physical_attrs 0x64 0x64 0x18e 0x35 0x3e8 0x1c0 0x67 >, < &key_physical_attrs 0x64 0x64 0x1ef 0x53 0x3e8 0x221 0x85 >, < &key_physical_attrs 0x64 0x64 0x24f 0x70 0x3e8 0x281 0xa2 >, < &key_physical_attrs 0x64 0x64 0x3df 0x72 0xfffffc18 0x411 0xa4 >, < &key_physical_attrs 0x64 0x64 0x43f 0x54 0xfffffc18 0x471 0x86 >, < &key_physical_attrs 0x64 0x64 0x49f 0x37 0xfffffc18 0x4d1 0x69 >, < &key_physical_attrs 0x64 0x64 0x506 0x3e 0xfffffc18 0x538 0x70 >, < &key_physical_attrs 0x64 0x64 0x56d 0x45 0xfffffc18 0x59f 0x77 >, < &key_physical_attrs 0x64 0x64 0x5cf 0x34 0xfffffc18 0x601 0x66 >, < &key_physical_attrs 0x64 0x64 0x4d 0x94 0x3e8 0x7f 0xc6 >, < &key_physical_attrs 0x64 0x64 0xaf 0xa6 0x3e8 0xe1 0xd8 >, < &key_physical_attrs 0x64 0x64 0x116 0x9f 0x3e8 0x148 0xd1 >, < &key_physical_attrs 0x64 0x64 0x17d 0x97 0x3e8 0x1af 0xc9 >, < &key_physical_attrs 0x64 0x64 0x1dd 0xb5 0x3e8 0x20f 0xe7 >, < &key_physical_attrs 0x64 0x64 0x23e 0xd3 0x3e8 0x270 0x105 >, < &key_physical_attrs 0x64 0x64 0x3f0 0xd4 0xfffffc18 0x422 0x106 >, < &key_physical_attrs 0x64 0x64 0x450 0xb7 0xfffffc18 0x482 0xe9 >, < &key_physical_attrs 0x64 0x64 0x4b1 0x99 0xfffffc18 0x4e3 0xcb >, < &key_physical_attrs 0x64 0x64 0x518 0xa0 0xfffffc18 0x54a 0xd2 >, < &key_physical_attrs 0x64 0x64 0x57e 0xa8 0xfffffc18 0x5b0 0xda >, < &key_physical_attrs 0x64 0x64 0x5e1 0x96 0xfffffc18 0x613 0xc8 >, < &key_physical_attrs 0x64 0x64 0x3b 0xf7 0x3e8 0x6d 0x129 >, < &key_physical_attrs 0x64 0x64 0x9e 0x108 0x3e8 0xd0 0x13a >, < &key_physical_attrs 0x64 0x64 0x105 0x101 0x3e8 0x137 0x133 >, < &key_physical_attrs 0x64 0x64 0x16c 0xfa 0x3e8 0x19e 0x12c >, < &key_physical_attrs 0x64 0x64 0x1cc 0x117 0x3e8 0x1fe 0x149 >, < &key_physical_attrs 0x64 0x64 0x22c 0x135 0x3e8 0x25e 0x167 >, < &key_physical_attrs 0x64 0x64 0x401 0x137 0xfffffc18 0x433 0x169 >, < &key_physical_attrs 0x64 0x64 0x462 0x119 0xfffffc18 0x494 0x14b >, < &key_physical_attrs 0x64 0x64 0x4c2 0xfc 0xfffffc18 0x4f4 0x12e >, < &key_physical_attrs 0x64 0x64 0x529 0x103 0xfffffc18 0x55b 0x135 >, < &key_physical_attrs 0x64 0x64 0x590 0x10a 0xfffffc18 0x5c2 0x13c >, < &key_physical_attrs 0x64 0x64 0x5f2 0xf9 0xfffffc18 0x624 0x12b >, < &key_physical_attrs 0x64 0x64 0x32 0x174 0x3e8 0x64 0x1a6 >, < &key_physical_attrs 0x64 0x64 0x94 0x186 0x3e8 0xc6 0x1b8 >, < &key_physical_attrs 0x64 0x64 0xfb 0x17e 0x3e8 0x12d 0x1b0 >, < &key_physical_attrs 0x64 0x64 0x176 0x194 0x0 0x1a8 0x1c6 >, < &key_physical_attrs 0x64 0x64 0x1e7 0x19b 0x3e8 0x219 0x1cd >, < &key_physical_attrs 0x64 0x64 0x254 0x1bb 0x7d0 0x286 0x1ed >, < &key_physical_attrs 0x64 0x64 0x3da 0x1bd 0xfffff830 0x40c 0x1ef >, < &key_physical_attrs 0x64 0x64 0x446 0x19d 0xfffffc18 0x478 0x1cf >, < &key_physical_attrs 0x64 0x64 0x4b7 0x196 0x0 0x4e9 0x1c8 >, < &key_physical_attrs 0x64 0x64 0x532 0x180 0xfffffc18 0x564 0x1b2 >, < &key_physical_attrs 0x64 0x64 0x599 0x187 0xfffffc18 0x5cb 0x1b9 >, < &key_physical_attrs 0x64 0x64 0x5fc 0x176 0xfffffc18 0x62e 0x1a8 >;
+	};
+	kscan0: kscan {
+		compatible = "zmk,kscan-gpio-charlieplex";
+		gpios = < &pro_micro 0x2 0x1 >, < &pro_micro 0x3 0x1 >, < &pro_micro 0x4 0x1 >, < &pro_micro 0x5 0x1 >, < &pro_micro 0x15 0x1 >, < &pro_micro 0x14 0x1 >, < &pro_micro 0x13 0x1 >, < &pro_micro 0x12 0x1 >, < &pro_micro 0xf 0x1 >, < &pro_micro 0xe 0x1 >;
+		debounce-press-ms = < 0x5 >;
+		debounce-release-ms = < 0x5 >;
+		debounce-scan-period-ms = < 0x1 >;
+		poll-period-ms = < 0x5 >;
+		phandle = < 0xc >;
+	};
+	behaviors {
+		kp: key_press {
+			compatible = "zmk,behavior-key-press";
+			#binding-cells = < 0x1 >;
+			display-name = "Key Press";
+			phandle = < 0xf >;
+		};
+		trans: transparent {
+			compatible = "zmk,behavior-transparent";
+			#binding-cells = < 0x0 >;
+			display-name = "Transparent";
+			phandle = < 0x14 >;
+		};
+		none: none {
+			compatible = "zmk,behavior-none";
+			#binding-cells = < 0x0 >;
+			display-name = "None";
+			phandle = < 0x15 >;
+		};
+		mo: momentary_layer {
+			compatible = "zmk,behavior-momentary-layer";
+			#binding-cells = < 0x1 >;
+			display-name = "Momentary Layer";
+			phandle = < 0x10 >;
+		};
+		sys_reset: sysreset {
+			compatible = "zmk,behavior-reset";
+			#binding-cells = < 0x0 >;
+			display-name = "Reset";
+		};
+		bootloader: bootload {
+			compatible = "zmk,behavior-reset";
+			type = < 0x57 >;
+			#binding-cells = < 0x0 >;
+			display-name = "Bootloader";
+		};
+		rgb_ug: rgb_ug {
+			compatible = "zmk,behavior-rgb-underglow";
+			#binding-cells = < 0x2 >;
+			display-name = "Underglow";
+		};
+		bt: bluetooth {
+			compatible = "zmk,behavior-bluetooth";
+			#binding-cells = < 0x2 >;
+			display-name = "Bluetooth";
+			phandle = < 0x16 >;
+		};
+		ext_power: extpower {
+			compatible = "zmk,behavior-ext-power";
+			#binding-cells = < 0x1 >;
+			display-name = "External Power";
+		};
+		out: outputs {
+			compatible = "zmk,behavior-outputs";
+			#binding-cells = < 0x1 >;
+			display-name = "Output Selection";
+			phandle = < 0x17 >;
+		};
+		macro_tap: macro_tap {
+			compatible = "zmk,macro-control-mode-tap";
+			#binding-cells = < 0x0 >;
+		};
+		macro_press: macro_press {
+			compatible = "zmk,macro-control-mode-press";
+			#binding-cells = < 0x0 >;
+		};
+		macro_release: macro_release {
+			compatible = "zmk,macro-control-mode-release";
+			#binding-cells = < 0x0 >;
+		};
+		macro_tap_time: macro_tap_time {
+			compatible = "zmk,macro-control-tap-time";
+			#binding-cells = < 0x1 >;
+		};
+		macro_wait_time: macro_wait_time {
+			compatible = "zmk,macro-control-wait-time";
+			#binding-cells = < 0x1 >;
+		};
+		macro_pause_for_release: macro_pause_for_release {
+			compatible = "zmk,macro-pause-for-release";
+			#binding-cells = < 0x0 >;
+		};
+		macro_param_1to1: macro_param_1to1 {
+			compatible = "zmk,macro-param-1to1";
+			#binding-cells = < 0x0 >;
+		};
+		macro_param_1to2: macro_param_1to2 {
+			compatible = "zmk,macro-param-1to2";
+			#binding-cells = < 0x0 >;
+		};
+		macro_param_2to1: macro_param_2to1 {
+			compatible = "zmk,macro-param-2to1";
+			#binding-cells = < 0x0 >;
+		};
+		macro_param_2to2: macro_param_2to2 {
+			compatible = "zmk,macro-param-2to2";
+			#binding-cells = < 0x0 >;
+		};
+		studio_unlock: studio_unlock {
+			compatible = "zmk,behavior-studio-unlock";
+			#binding-cells = < 0x0 >;
+			display-name = "Studio Unlock";
+		};
+		mkp: mouse_key_press {
+			compatible = "zmk,behavior-mouse-key-press";
+			#binding-cells = < 0x1 >;
+			display-name = "Mouse Key Press";
+			phandle = < 0x11 >;
+		};
+		mmv: mouse_move {
+			compatible = "zmk,behavior-input-two-axis";
+			#binding-cells = < 0x1 >;
+			x-input-code = < 0x0 >;
+			y-input-code = < 0x1 >;
+			time-to-max-speed-ms = < 0x12c >;
+			acceleration-exponent = < 0x1 >;
+			phandle = < 0x12 >;
+		};
+		msc: mouse_scroll {
+			compatible = "zmk,behavior-input-two-axis";
+			#binding-cells = < 0x1 >;
+			x-input-code = < 0x6 >;
+			y-input-code = < 0x8 >;
+			time-to-max-speed-ms = < 0x12c >;
+			acceleration-exponent = < 0x0 >;
+			phandle = < 0x13 >;
+		};
+	};
+	mkp_input_listener: mkp_input_listener {
+		compatible = "zmk,input-listener";
+		device = < &mkp >;
+	};
+	mmv_input_listener: mmv_input_listener {
+		compatible = "zmk,input-listener";
+		device = < &mmv >;
+	};
+	msc_input_listener: msc_input_listener {
+		compatible = "zmk,input-listener";
+		device = < &msc >;
+	};
+	conditional_layers {
+		compatible = "zmk,conditional-layers";
+		adjust {
+			if-layers = < 0x1 0x2 >;
+			then-layer = < 0x3 >;
+		};
+	};
+	keymap {
+		compatible = "zmk,keymap";
+		base {
+			display-name = "JIS QWERTY";
+			bindings = < &kp 0x7002b &kp 0x70014 &kp 0x7001a &kp 0x70008 &kp 0x70015 &kp 0x70017 &kp 0x7001c &kp 0x70018 &kp 0x7000c &kp 0x70012 &kp 0x70013 &kp 0x7002a &kp 0x70029 &kp 0x70004 &kp 0x70016 &kp 0x70007 &kp 0x70009 &kp 0x7000a &kp 0x7000b &kp 0x7000d &kp 0x7000e &kp 0x7000f &kp 0x70033 &kp 0x70028 &kp 0x700e1 &kp 0x7001d &kp 0x7001b &kp 0x70006 &kp 0x70019 &kp 0x70005 &kp 0x70011 &kp 0x70010 &kp 0x70036 &kp 0x70037 &kp 0x70052 &kp 0x70038 &kp 0x700e0 &kp 0x700e3 &kp 0x700e2 &mo 0x1 &kp 0x7008b &kp 0x7002c &kp 0x7002c &kp 0x7008a &mo 0x2 &kp 0x70050 &kp 0x70051 &kp 0x7004f >;
+		};
+		lower {
+			display-name = "Numbers / navigation";
+			bindings = < &kp 0x70029 &kp 0x7001e &kp 0x7001f &kp 0x70020 &kp 0x70021 &kp 0x70022 &kp 0x70023 &kp 0x70024 &kp 0x70025 &kp 0x70026 &kp 0x70027 &kp 0x7004c &trans &kp 0x7002f &kp 0x70030 &kp 0x70032 &kp 0x7002d &kp 0x7002e &kp 0x70050 &kp 0x70051 &kp 0x70052 &kp 0x7004f &kp 0x70034 &trans &trans &kp 0x70089 &kp 0x70087 &kp 0x7004a &kp 0x7004d &kp 0x7004b &kp 0x7004e &kp 0x70049 &kp 0x70036 &kp 0x70037 &trans &kp 0x70038 &trans &trans &trans &trans &kp 0x70091 &trans &trans &kp 0x70090 &trans &trans &trans &trans >;
+		};
+		raise {
+			display-name = "Symbols / function";
+			bindings = < &kp 0x7003a &kp 0x7003b &kp 0x7003c &kp 0x7003d &kp 0x7003e &kp 0x7003f &kp 0x70040 &kp 0x70041 &kp 0x70042 &kp 0x70043 &kp 0x70044 &kp 0x70045 &trans &kp 0x207001e &kp 0x207001f &kp 0x2070020 &kp 0x2070021 &kp 0x2070022 &kp 0x2070023 &kp 0x2070024 &kp 0x2070025 &kp 0x2070026 &kp 0x2070033 &trans &trans &kp 0x207002e &kp 0x2070089 &kp 0x2070030 &kp 0x2070032 &kp 0x2070087 &kp 0x207002d &kp 0x2070034 &kp 0x2070036 &kp 0x2070037 &trans &kp 0x2070038 &trans &trans &trans &trans &kp 0x70088 &trans &trans &kp 0x70094 &trans &trans &trans &trans >;
+		};
+		adjust {
+			display-name = "Bluetooth / system";
+			bindings = < &none &bt 0x3 0x0 &bt 0x3 0x1 &bt 0x3 0x2 &bt 0x3 0x3 &bt 0x3 0x4 &none &none &none &none &none &bt 0x0 0x0 &none &out 0x1 &out 0x2 &none &none &none &none &none &none &none &none &none &kp 0x70039 &none &none &none &none &none &none &none &none &none &none &none &trans &trans &trans &trans &none &none &none &none &trans &trans &trans &trans >;
+		};
+	};
+};

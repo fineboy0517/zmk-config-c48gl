@@ -1,0 +1,37 @@
+name: Build C48GL UF2
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/verify_config.py
+  build:
+    needs: validate
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@edf5c0814fd3ea202e43aad2d68fd32e882a518c
+  verify-uf2:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: firmware
+          path: firmware-ci
+      - run: >-
+          python scripts/verify_uf2.py
+          firmware-ci/c48gl-nice_nano_v2.uf2
+          firmware-ci/c48gl-nice_nano_v2-studio.uf2

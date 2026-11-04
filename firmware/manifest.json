@@ -1,0 +1,33 @@
+{
+  "build_date_jst": "2026-11-05",
+  "board": "nice_nano_v2",
+  "shield": "c48gl",
+  "zmk_commit": "edf5c0814fd3ea202e43aad2d68fd32e882a518c",
+  "github_actions_run": false,
+  "hardware_flashed": false,
+  "hardware_tested": false,
+  "inputs": {
+    "build.yaml": "9fa506e30828de02de846ee8c53bf3b4380643175f97f98acf94b0f3652c2962",
+    "requirements-build.txt": "87f223a0bd4bb849d6ba67e753cb2b7bf8205b54d49db000d7069d8f94f2309a",
+    "zephyr/module.yml": "d0f81a2756aa88a2fe0e577ff1c1327279aeb096bfc72ec4d45e04f25242c660",
+    "boards/shields/c48gl/Kconfig.defconfig": "85ce3d161839a4d962a3439432ba1d866ae2944d3920457b120c4ffd96296ff0",
+    "boards/shields/c48gl/Kconfig.shield": "8407661ec88b6e12197698d4ac2be19f3523ff58974942d4741db4db01a8ba95",
+    "boards/shields/c48gl/c48gl-layout.dtsi": "0fbdf44ef662a3721c65fb47f216d1a04afa97b583dbfb66a6ad73108fffff24",
+    "boards/shields/c48gl/c48gl.overlay": "926de90e1300ac3720764d2be7724818412f33e77826544f5bb85cdabc3329cc",
+    "boards/shields/c48gl/c48gl.zmk.yml": "b65ba241fe26598cbdc1c2d8b3b0de04bc462b763b5a1443abe2312afb8f4a98",
+    "config/c48gl-jis.h": "6d3b84d91131b53bb22871f7e2ff3d471b43bda690194922c5f7864bb9b0ffbe",
+    "config/c48gl.conf": "f75a54f04bf761f9a1e00490356d8a00f9d331ca91e3ac079f38004f7fd67e5f",
+    "config/c48gl.keymap": "57bf1a96d93319dc12d0c0bb60ae1fc48f954cf49e47b638fcaf7dfb30a4ce65",
+    "config/west.yml": "cb00d35a6b10f47fefb3b0703b1cd48ac88714b9f078ca40d22e4ca7153a30b1"
+  },
+  "outputs": {
+    "firmware/c48gl-nice_nano_v2-studio.uf2": {
+      "sha256": "cfbf9c11b6e84b9fff3d33f5cea546949e8a0d129578675c21118bc26d03a005",
+      "bytes": 410624
+    },
+    "firmware/c48gl-nice_nano_v2.uf2": {
+      "sha256": "c9c45e80767f27c9be680ab643fd7964fe7cb13ddaa23d683bc14caaf15381ba",
+      "bytes": 357888
+    }
+  }
+}
