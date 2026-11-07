@@ -6,7 +6,7 @@ manifest:
   projects:
     - name: zmk
       remote: cormoran
-      revision: 4493783ef88ce2e653bf8217c92ee17140df71e3
+      revision: e5c9b6915b56801193e359dd9bad4a167ce0d1b8
       import: app/west.yml
     - name: zmk-feature-runtime-macro
       remote: cormoran
