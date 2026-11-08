@@ -46,7 +46,14 @@ def main():
     groups = re.findall(r'bindings\s*=\s*<(.*?)>;', keymap, re.S)
     assert len(groups) == 4
     for group in groups:
-        assert group.count('&') + group.count('STUDIO_BINDING') == 48
+        assert group.count('&') == 48
+    # ADJUST's left Space is key 41 (zero-based) in the 4 x 12 layout.
+    # A Kconfig-dependent macro silently became &none during DTS preprocessing.
+    assert 'STUDIO_BINDING' not in keymap
+    assert not re.search(r'^\s*#\s*(?:if|ifdef|ifndef)\b', keymap, re.M)
+    adjust = re.findall(r'&(\w+)\b[^&]*', groups[3])
+    assert adjust[41] == 'studio_unlock', 'ADJUST + left Space must unlock Studio'
+    assert keymap.count('&studio_unlock') == 1
     print('PASS: source hashes, 10 pin mappings, 48 PCB switch/diode paths, transform, Studio geometry, and 4 x 48 bindings.')
 
 if __name__ == '__main__':

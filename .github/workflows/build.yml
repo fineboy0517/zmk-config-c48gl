@@ -18,7 +18,7 @@ jobs:
       - run: python scripts/verify_config.py
   build:
     needs: validate
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@edf5c0814fd3ea202e43aad2d68fd32e882a518c
+    uses: cormoran/zmk/.github/workflows/build-user-config.yml@e5c9b6915b56801193e359dd9bad4a167ce0d1b8
   verify-uf2:
     needs: build
     runs-on: ubuntu-22.04
@@ -33,5 +33,4 @@ jobs:
           path: firmware-ci
       - run: >-
           python scripts/verify_uf2.py
-          firmware-ci/c48gl-nice_nano_v2.uf2
-          firmware-ci/c48gl-nice_nano_v2-studio.uf2
+          firmware-ci/c48gl-nice_nano_v2-dya.uf2
