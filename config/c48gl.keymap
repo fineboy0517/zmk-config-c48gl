@@ -10,11 +10,8 @@
 #define RAISE 2
 #define ADJUST 3
 
-#if CONFIG_ZMK_STUDIO
-#define STUDIO_BINDING &studio_unlock
-#else
-#define STUDIO_BINDING &none
-#endif
+// DYA builds always enable Studio. Kconfig symbols are not available to the
+// devicetree preprocessor, so bind studio_unlock directly on this branch.
 
 / {
     conditional_layers {
@@ -60,7 +57,7 @@
                 &none     &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none &none &none &none &none &bt BT_CLR
                 &none     &out OUT_USB &out OUT_BLE &none &none &none &none &none &none &none &none &none
                 &kp CAPS  &none &none &none &none &none &none &none &none &none &none &none
-                &trans    &trans &trans &trans &none STUDIO_BINDING &none &none &trans &trans &trans &trans
+                &trans    &trans &trans &trans &none &studio_unlock &none &none &trans &trans &trans &trans
             >;
         };
     };
